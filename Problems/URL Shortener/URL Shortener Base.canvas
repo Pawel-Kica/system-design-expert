@@ -1,0 +1,43 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"## Design URL Shortener\n\nA URL shortener like bit.ly / TinyURL lets users create short aliases for long URLs. Redirects are the primary operation. Has **~100M DAU** with reads heavily dominating writes (100:1+).","x":-1200,"y":-920,"width":500,"height":160,"color":"1"},
+		{"id":"roadmap-1","type":"text","text":"**1**\nRequirements","x":-1200,"y":-720,"width":140,"height":70,"color":"4"},
+		{"id":"roadmap-2","type":"text","text":"**2**\nCore Entities","x":-1020,"y":-720,"width":140,"height":70,"color":"4"},
+		{"id":"roadmap-3","type":"text","text":"**3**\nAPI","x":-840,"y":-720,"width":140,"height":70,"color":"4"},
+		{"id":"roadmap-4","type":"text","text":"**4**\nHigh-level Design","x":-660,"y":-720,"width":160,"height":70,"color":"4"},
+		{"id":"roadmap-5","type":"text","text":"**5**\nDeep Dives","x":-460,"y":-720,"width":140,"height":70,"color":"4"},
+		{"id":"roadmap-hld","type":"text","text":"Primary Goal: Satisfy **Functional Requirements**","x":-660,"y":-875,"width":300,"height":50,"color":"6"},
+		{"id":"roadmap-dd","type":"text","text":"Primary Goal: Satisfy **Non-Functional Requirements**","x":-320,"y":-875,"width":300,"height":50,"color":"6"},
+		{"id":"func-req","type":"text","text":"### Functional Requirements\n- Shorten a long URL\n- Redirect short URL → original\n- View click analytics","x":-1200,"y":-600,"width":300,"height":150,"color":"5"},
+		{"id":"nonfunc-req","type":"text","text":"### Non-Functional Requirements\n- Ultra-low latency redirects\n- High availability (AP) for reads, consistency for writes (no duplicate codes)\n- Read >> Write (100:1 to 1000:1)\n- Scale to billions of URLs, handle viral burst traffic","x":-1200,"y":-410,"width":420,"height":240,"color":"5"},
+		{"id":"out-of-scope","type":"text","text":"### Out of Scope\n- User authentication\n- URL expiration / TTL\n- Custom branded domains\n- Spam detection","x":-1200,"y":-140,"width":280,"height":140,"color":"0"},
+		{"id":"core-entities","type":"text","text":"### Core Entities\n- URL\n- Key\n- Click","x":-1200,"y":30,"width":200,"height":130,"color":"5"},
+		{"id":"api","type":"text","text":"### API\n\n`POST /urls`\nbody: { longUrl, customAlias? }\n→ { shortCode, shortUrl }\n\n`GET /{shortCode}`\n→ 302 Redirect (Location: longUrl)\n\n`GET /urls/{shortCode}/stats`\n→ { totalClicks, clicksByDay[], topReferrers[] }","x":-1200,"y":200,"width":420,"height":300,"color":"5"},
+		{"id":"create-label","type":"text","text":"`POST /urls body: { longUrl } → { shortCode, shortUrl }`","x":-60,"y":-640,"width":480,"height":50,"color":"0"},
+		{"id":"redirect-label","type":"text","text":"`GET /{shortCode} → 302 Redirect`","x":-60,"y":-580,"width":350,"height":50,"color":"0"},
+		{"id":"stats-label","type":"text","text":"`GET /urls/{shortCode}/stats → { totalClicks, clicksByDay[] }`","x":-60,"y":-520,"width":520,"height":50,"color":"0"},
+		{"id":"client","type":"text","text":"**Client**","x":-420,"y":-210,"width":130,"height":60},
+		{"id":"api-gateway","type":"text","text":"**API Gateway**\n- rate limiting\n- routing","x":-200,"y":-260,"width":200,"height":120,"color":"1"},
+		{"id":"url-service","type":"text","text":"**URL Service**\n\ncreate(longUrl)\nredirect(shortCode)","x":200,"y":-280,"width":220,"height":120,"color":"4"},
+		{"id":"analytics-service","type":"text","text":"**Analytics Service**\n\ngetStats(shortCode)","x":200,"y":-100,"width":220,"height":100,"color":"4"},
+		{"id":"database","type":"text","text":"**Database**\n(Postgres)","x":600,"y":-210,"width":200,"height":80,"color":"6"},
+		{"id":"url-table","type":"text","text":"**URL**\n- shortCode (PK)\n- longUrl\n- userId\n- createdAt\n- expiresAt","x":900,"y":-350,"width":190,"height":210,"color":"6"},
+		{"id":"click-table","type":"text","text":"**Click**\n- id\n- shortCode (FK)\n- timestamp\n- userAgent\n- ipAddress\n- referrer","x":900,"y":-100,"width":190,"height":240,"color":"6"},
+		{"id":"id-gen-note","type":"text","text":"**ID Generation**\nauto-increment ID → base62\nor MD5 hash, take first 7 chars\n\nSimple but has collision\nor predictability issues","x":520,"y":-520,"width":280,"height":160,"color":"0"}
+	],
+	"edges":[
+		{"id":"e-rm1-rm2","fromNode":"roadmap-1","fromSide":"right","toNode":"roadmap-2","toSide":"left"},
+		{"id":"e-rm2-rm3","fromNode":"roadmap-2","fromSide":"right","toNode":"roadmap-3","toSide":"left"},
+		{"id":"e-rm3-rm4","fromNode":"roadmap-3","fromSide":"right","toNode":"roadmap-4","toSide":"left"},
+		{"id":"e-rm4-rm5","fromNode":"roadmap-4","fromSide":"right","toNode":"roadmap-5","toSide":"left"},
+		{"id":"e-hld-rm4","fromNode":"roadmap-hld","fromSide":"bottom","toNode":"roadmap-4","toSide":"top"},
+		{"id":"e-dd-rm5","fromNode":"roadmap-dd","fromSide":"bottom","toNode":"roadmap-5","toSide":"top"},
+		{"id":"e-client-gw","fromNode":"client","fromSide":"right","toNode":"api-gateway","toSide":"left"},
+		{"id":"e-gw-url","fromNode":"api-gateway","fromSide":"right","toNode":"url-service","toSide":"left"},
+		{"id":"e-gw-analytics","fromNode":"api-gateway","fromSide":"right","toNode":"analytics-service","toSide":"left"},
+		{"id":"e-url-db","fromNode":"url-service","fromSide":"right","toNode":"database","toSide":"left"},
+		{"id":"e-analytics-db","fromNode":"analytics-service","fromSide":"right","toNode":"database","toSide":"left"},
+		{"id":"e-db-url","fromNode":"database","fromSide":"right","toNode":"url-table","toSide":"left"},
+		{"id":"e-db-click","fromNode":"database","fromSide":"right","toNode":"click-table","toSide":"left"}
+	]
+}
