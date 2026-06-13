@@ -26,6 +26,20 @@ You give it a system design problem. It produces a structured solution (requirem
 
 Each problem keeps the same shape: Base is the naive "it works but does not scale" design, Deep adds the optimizations (caching, queues, sharding, distributed locks, real-time channels) with a summary node showing exactly what changed.
 
+## Example prompts
+
+Talk to it like a study partner. A few to start:
+
+```
+/system-design solve Distributed Message Queue
+/system-design solve Top K Leaderboard on a 1B-event stream
+/system-design explain how CRDTs differ from operational transformation
+/system-design explain when to fan out on write vs on read
+/system-design review
+```
+
+`solve` writes the solution and diagrams to disk. `explain` and `review` answer from the brain. See the full breakdown below.
+
 ## Setup
 
 Requires [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
