@@ -51,7 +51,7 @@ git clone https://github.com/Pawel-Kica/system-design-expert
 cd system-design-expert
 ```
 
-Open Claude Code in the folder. The `/system-design` command lives in `.claude/commands/` and works right away. No install step.
+Open Claude Code in the folder. The `/system-design` skill lives in `.claude/skills/` and works right away. No install step.
 
 **2. See what it knows**
 

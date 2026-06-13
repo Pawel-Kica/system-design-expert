@@ -1,9 +1,10 @@
 ---
-description: System design knowledge base and problem solver
+name: system-design
+description: "System design knowledge base and problem solver. Solve a system into a written design plus Base/Deep architecture diagrams, explain concepts from the brain, review coverage, or fold new sources in. Trigger /system-design, 'solve the X system', 'explain <concept>', 'design a <system>'."
 argument-hint: explain <concept> | review | update | solve <problem>
 ---
 
-Parse $ARGUMENTS to determine the mode. If empty or unclear, ask which mode.
+Parse the request (the text after `/system-design`) to determine the mode. If empty or unclear, ask which mode.
 
 # Paths
 
