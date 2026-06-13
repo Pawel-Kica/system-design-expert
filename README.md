@@ -40,16 +40,44 @@ Talk to it like a study partner. A few to start:
 
 `solve` writes the solution and diagrams to disk. `explain` and `review` answer from the brain. See the full breakdown below.
 
-## Setup
+## Quickstart
 
-Requires [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+**Prerequisites:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code). [Obsidian](https://obsidian.md) is optional, only needed to view the diagrams.
+
+**1. Clone and open**
 
 ```bash
 git clone https://github.com/Pawel-Kica/system-design-expert
 cd system-design-expert
 ```
 
-Open Claude Code in the repo. The `/system-design` command is available right away. See [SETUP.md](SETUP.md) for a two-minute walkthrough.
+Open Claude Code in the folder. The `/system-design` command lives in `.claude/commands/` and works right away. No install step.
+
+**2. See what it knows**
+
+```
+/system-design review
+```
+
+Prints the knowledge base by category and flags the thin spots.
+
+**3. Solve your first problem**
+
+```
+/system-design solve URL Shortener
+```
+
+Writes a full solution to `Problems/URL Shortener/` plus two diagrams: `Canvas/URL Shortener Base.canvas` (naive) and `Canvas/URL Shortener Deep.canvas` (scaled). Matching `.excalidraw.md` files land in `Excalidraw/`.
+
+**4. Open the diagrams**
+
+Open the repo as an Obsidian vault, then open any `.canvas` file to see the architecture. Prefer Excalidraw? Open the `.excalidraw.md` files with the Excalidraw plugin.
+
+**5. Grow it**
+
+Drop a transcript or article into `Sources/`, then `/system-design update` to fold it into the brain. Ask it anything with `/system-design explain <concept>`.
+
+For the same thing in prose, see [SETUP.md](SETUP.md).
 
 ## Usage
 
