@@ -160,7 +160,7 @@ Unique constraint on `(postId, userId)` for idempotency.
 
 ## Deep Dives
 
-### Deep Dive 1: Feed Generation — Fan-Out On Write vs Fan-Out On Read
+### Deep Dive 1: Feed Generation: Fan-Out On Write vs Fan-Out On Read
 
 **The problem:** The naive pull model (fan-out on read) queries hundreds of users' posts on every feed load. This is far too slow at Twitter's scale (~500M DAU).
 
@@ -174,7 +174,7 @@ What we have in the base design. When a user opens their feed, query all followe
 - **Cons:** Extremely slow at read time. Feed latency grows linearly with the number of people you follow. Doesn't work at scale.
 - **Best for:** Users who follow very few people, or systems with low read volume.
 
-#### Fan-Out On Write (Push Model) — The Senior Answer
+#### Fan-Out On Write (Push Model): The Senior Answer
 
 Pre-compute every user's feed when a post is created, not when the feed is read.
 

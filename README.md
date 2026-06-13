@@ -1,17 +1,30 @@
 # System Design Expert
 
-An AI-powered system design knowledge base and interview prep tool, built for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+A system design knowledge base and interview prep tool, built for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
-You give it a system design problem. It produces a structured solution (requirements, APIs, schemas, deep dives) and visual architecture diagrams you can open in Obsidian or Excalidraw.
+You give it a system design problem. It produces a structured solution (requirements, APIs, schemas, deep dives) and two architecture diagrams you can open in Obsidian or Excalidraw: a Base design that just works, and a Deep design that scales.
 
 ![Uber system design canvas in Obsidian](assets/preview.png)
 
 ## What's inside
 
-- **`_Brain.md`** -- A self-contained knowledge base covering 50+ system design concepts (CAP theorem, caching, sharding, distributed locks, fan-out, geospatial indexing, etc.), compiled from multiple sources
-- **`Problems/`** -- Solved system design problems (Ticketmaster, Uber, Twitter Feed, URL Shortener) with requirements, APIs, schemas, deep dives, and architecture canvases (Base vs Deep)
-- **Source notes** -- Detailed transcripts from system design courses and interview breakdowns
-- **`canvas_to_excalidraw.py`** -- Converts Obsidian `.canvas` files to `.excalidraw.md`
+- **`_Brain.md`**: a self-contained knowledge base of system design concepts (CAP theorem, caching, sharding, consistent hashing, fan-out, operational transformation, rate-limiting algorithms, bloom filters, and more), compiled from the source notes.
+- **`Problems/`**: six solved problems, each with a full written solution plus Base and Deep architecture diagrams. Every problem folder splits its diagrams into `Canvas/` (Obsidian Canvas) and `Excalidraw/`.
+- **`Sources/`**: detailed breakdowns distilled from system design interview walkthroughs, the raw material the brain is compiled from.
+- **`canvas_to_excalidraw.py`**: converts an Obsidian `.canvas` into an `.excalidraw.md`.
+
+### Solved problems
+
+| Problem | The interesting part |
+|---|---|
+| Ticketmaster | Booking consistency, virtual waiting queue, distributed locks |
+| Uber | Geospatial matching, real-time location, surge |
+| Twitter Feed | Fan-out on write vs read, the celebrity problem |
+| URL Shortener | Key generation, read-heavy caching, redirects |
+| WhatsApp | WebSocket routing, offline delivery, presence |
+| Google Docs | Operational transformation, real-time collaboration |
+
+Each problem keeps the same shape: Base is the naive "it works but does not scale" design, Deep adds the optimizations (caching, queues, sharding, distributed locks, real-time channels) with a summary node showing exactly what changed.
 
 ## Setup
 
@@ -22,11 +35,9 @@ git clone https://github.com/Pawel-Kica/system-design-expert
 cd system-design-expert
 ```
 
-The `/system-design` slash command is automatically available when you open Claude Code in this directory.
+Open Claude Code in the repo. The `/system-design` command is available right away. See [SETUP.md](SETUP.md) for a two-minute walkthrough.
 
 ## Usage
-
-Open Claude Code in the repo root, then use the slash command:
 
 ### Solve a new problem
 
@@ -34,7 +45,7 @@ Open Claude Code in the repo root, then use the slash command:
 /system-design solve Chat System
 ```
 
-Generates a full solution: requirements, core entities, REST APIs, high-level design, deep dives, and two architecture canvases (Base = naive design, Deep = optimized with caching, queues, distributed locks, etc.).
+Generates a full solution (requirements, core entities, APIs, high-level design, deep dives) and two architecture canvases (Base and Deep), saved under `Problems/<Name>/`.
 
 ### Explain a concept
 
@@ -42,7 +53,7 @@ Generates a full solution: requirements, core entities, REST APIs, high-level de
 /system-design explain consistent hashing
 ```
 
-Explains the concept using the knowledge base. If the brain has enough detail, answers from it alone. If thin, pulls from the source notes.
+Explains the concept from the brain. If the brain is thin on it, pulls from the source notes.
 
 ### Review your knowledge
 
@@ -50,7 +61,7 @@ Explains the concept using the knowledge base. If the brain has enough detail, a
 /system-design review
 ```
 
-Shows a structured overview of all knowledge by category, flags thin areas, and suggests what to study next.
+A structured overview of everything in the brain by category, with thin areas flagged and suggestions for what to study next.
 
 ### Update the brain
 
@@ -58,15 +69,19 @@ Shows a structured overview of all knowledge by category, flags thin areas, and 
 /system-design update
 ```
 
-Regenerates `_Brain.md` from scratch by reading all source notes and problem files. Run this after adding new source material.
+Regenerates `_Brain.md` from everything in `Sources/` and `Problems/`. Run it after adding new source material.
 
 ## Obsidian integration
 
-The `.canvas` files open natively in [Obsidian](https://obsidian.md). Open this repo as an Obsidian vault to browse the architecture diagrams, navigate wikilinks between concepts and sources, and use the knowledge base as a second brain.
+The `.canvas` files open natively in [Obsidian](https://obsidian.md). Open this repo as a vault to browse the architecture diagrams, follow the `[[wikilinks]]` between concepts, problems, and sources, and use the knowledge base as a second brain. The `.excalidraw.md` files open with the Excalidraw plugin if you prefer that view.
 
 ## Adding your own sources
 
-Drop `.md` files (notes, transcripts, articles) into the repo root, then run `/system-design update` to incorporate them into the brain.
+Drop a note, transcript, or article into `Sources/`, then run `/system-design update` to fold it into the brain.
+
+## Credits
+
+The methodology (requirements, core entities, APIs, high-level design, deep dives, and the Base vs Deep split) follows [HelloInterview](https://www.hellointerview.com/). The source notes are distilled from their excellent ["Design X w/ an Ex-Meta Staff Engineer" YouTube series](https://www.youtube.com/playlist?list=PL5q3E8eRUieWtYLmRU3z94-vGRcwKr9tM). Go watch the originals.
 
 ## License
 

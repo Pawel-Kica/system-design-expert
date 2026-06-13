@@ -6,9 +6,9 @@ The CAP Theorem (Brewer's Theorem) states that in a distributed system, when a *
 
 **Consistency (C)** means every node in the system returns the same, most recent data. If a user deposits 1000 USDT via Node A, then Node B must also reflect that deposit before responding to any query. If it can't confirm it has the latest data, it refuses to answer.
 
-**Availability (A)** means every request receives a response — the system never says "sorry, come back later." It will always answer, even if the data might be slightly outdated.
+**Availability (A)** means every request receives a response, the system never says "sorry, come back later." It will always answer, even if the data might be slightly outdated.
 
-**Partition Tolerance (P)** means the system continues to function even when network communication between nodes is lost. This is not a choice — partitions **will** happen in any distributed system (cables break, switches fail, datacenters lose connectivity). P is a fact of life, not an option.
+**Partition Tolerance (P)** means the system continues to function even when network communication between nodes is lost. This is not a choice, partitions **will** happen in any distributed system (cables break, switches fail, datacenters lose connectivity). P is a fact of life, not an option.
 
 ## The Real Decision
 
@@ -34,20 +34,20 @@ Whichever consequence is worse tells you what to prioritize.
 
 ### CP Systems (Consistency wins)
 
-**Banking / financial transactions** — If Node B doesn't know about a withdrawal processed by Node A, it might allow a second withdrawal, creating money from nothing. Showing "temporarily unavailable" is far better than processing transactions on incorrect balances. The derivatives trading platform is a textbook CP case: wrong margin data can lead to unauthorized position openings and real financial losses.
+**Banking / financial transactions**. If Node B doesn't know about a withdrawal processed by Node A, it might allow a second withdrawal, creating money from nothing. Showing "temporarily unavailable" is far better than processing transactions on incorrect balances. The derivatives trading platform is a textbook CP case: wrong margin data can lead to unauthorized position openings and real financial losses.
 
-**Airline seat reservations** — Two people in different regions try to book the same last seat. If both succeed on stale data, you have an oversold flight and a furious customer at the gate. Better to briefly pause reservations than sell a seat twice.
+**Airline seat reservations**. Two people in different regions try to book the same last seat. If both succeed on stale data, you have an oversold flight and a furious customer at the gate. Better to briefly pause reservations than sell a seat twice.
 
 ### AP Systems (Availability wins)
 
-**Social media feeds (Twitter/X, Instagram)** — If a user sees a post from 3 seconds ago instead of 1 second ago, nobody notices or cares. But if the feed won't load at all, users leave for a competitor. Stale data is a non-issue; downtime is a disaster.
+**Social media feeds (Twitter/X, Instagram)**. If a user sees a post from 3 seconds ago instead of 1 second ago, nobody notices or cares. But if the feed won't load at all, users leave for a competitor. Stale data is a non-issue; downtime is a disaster.
 
-**Live viewer counts (Twitch, YouTube)** — Whether the counter shows 3,000 or 3,001 viewers is irrelevant. The number just needs to be "roughly right." Refusing to show a count because you can't guarantee exactness would be absurd.
+**Live viewer counts (Twitch, YouTube)**. Whether the counter shows 3,000 or 3,001 viewers is irrelevant. The number just needs to be "roughly right." Refusing to show a count because you can't guarantee exactness would be absurd.
 
-**News sites (NYT, CNN)** — During a partition, serving articles from 5 minutes ago is perfectly fine. Users came to read news — they don't need the absolute latest millisecond of updates. An unavailable homepage, on the other hand, is a total failure.
+**News sites (NYT, CNN)**. During a partition, serving articles from 5 minutes ago is perfectly fine. Users came to read news, they don't need the absolute latest millisecond of updates. An unavailable homepage, on the other hand, is a total failure.
 
-**Chat applications (Slack, Discord, WhatsApp)** — Users need to keep messaging. If messages appear briefly out of order during a partition, that's a minor inconvenience easily fixed after recovery. A chat app that says "you can't send messages right now" feels broken and users will switch to a competitor.
+**Chat applications (Slack, Discord, WhatsApp)**. Users need to keep messaging. If messages appear briefly out of order during a partition, that's a minor inconvenience easily fixed after recovery. A chat app that says "you can't send messages right now" feels broken and users will switch to a competitor.
 
 ## Key Takeaway
 
-CAP is not about memorizing definitions. It's about **trade-off reasoning**: given this specific system and its business context, what failure mode is more acceptable? That reasoning — not the acronym — is what matters in system design.
+CAP is not about memorizing definitions. It's about **trade-off reasoning**: given this specific system and its business context, what failure mode is more acceptable? That reasoning, not the acronym, is what matters in system design.

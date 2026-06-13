@@ -1,0 +1,42 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"## Design WhatsApp\n\nA real-time chat app like WhatsApp / Messenger. Users hold one-to-one and group conversations, send text and media, and reliably receive messages after their device was offline. Billions of users, 500 ms latency budget.","x":-1200,"y":-960,"width":520,"height":180,"color":"1"},
+		{"id":"roadmap-1","type":"text","text":"**1**\nRequirements","x":-1200,"y":-720,"width":140,"height":70,"color":"4"},
+		{"id":"roadmap-2","type":"text","text":"**2**\nCore Entities","x":-1020,"y":-720,"width":140,"height":70,"color":"4"},
+		{"id":"roadmap-3","type":"text","text":"**3**\nAPI","x":-840,"y":-720,"width":140,"height":70,"color":"4"},
+		{"id":"roadmap-4","type":"text","text":"**4**\nHigh-level Design","x":-660,"y":-720,"width":160,"height":70,"color":"4"},
+		{"id":"roadmap-5","type":"text","text":"**5**\nDeep Dives","x":-460,"y":-720,"width":140,"height":70,"color":"4"},
+		{"id":"roadmap-hld","type":"text","text":"Primary Goal: Satisfy **Functional Requirements**","x":-660,"y":-875,"width":300,"height":50,"color":"6"},
+		{"id":"roadmap-dd","type":"text","text":"Primary Goal: Satisfy **Non-Functional Requirements**","x":-320,"y":-875,"width":300,"height":50,"color":"6"},
+		{"id":"func-req","type":"text","text":"### Functional Requirements\n- Create chats / group chats (1:1 is a group of 2)\n- Send and receive messages in a chat\n- Send media attachments (image, audio, video)\n- Access messages received while offline","x":-1200,"y":-600,"width":320,"height":240,"color":"5"},
+		{"id":"nonfunc-req","type":"text","text":"### Non-Functional Requirements\n- Low-latency delivery (500 ms budget)\n- Guaranteed delivery (durable, not via live socket)\n- Massive scale (billions of users)\n- Do not store messages unnecessarily (~30 day TTL)\n- Fault tolerance","x":-1210,"y":-330,"width":420,"height":230,"color":"5"},
+		{"id":"out-of-scope","type":"text","text":"### Out of Scope\n- Audio / video calling\n- Spam, abuse, security\n- Contact scraping\n- E2E encryption internals\n- Presence (extension only)","x":-1200,"y":-80,"width":280,"height":210,"color":"0"},
+		{"id":"core-entities","type":"text","text":"### Core Entities\n- User\n- Chat\n- Message\n- Client / Device","x":-1200,"y":160,"width":200,"height":200,"color":"5"},
+		{"id":"api","type":"text","text":"### API (WebSocket, not REST)\n\n**sent (client -> server)**\n`createChat { participantIds, name? }`\n`sendMessage { chatId, contents }`\n`createAttachment { chatId, fileType }`\n`modifyParticipants { chatId, add[], remove[] }`\n`ack { messageId }`\n\n**received (server -> client)**\n`newMessage { messageId, chatId, senderId, contents }`\n`chatCreated { chatId, participants[] }`\n`participantsChanged { chatId, add[], remove[] }`","x":-1200,"y":390,"width":520,"height":470,"color":"5"},
+		{"id":"send-label","type":"text","text":"`sendMessage { chatId, contents } -> newMessage`","x":-60,"y":-640,"width":440,"height":50,"color":"0"},
+		{"id":"create-label","type":"text","text":"`createChat { participantIds } -> { chatId }`","x":-60,"y":-580,"width":420,"height":50,"color":"0"},
+		{"id":"attach-label","type":"text","text":"`createAttachment -> S3 pre-signed URL`","x":-60,"y":-520,"width":420,"height":50,"color":"0"},
+		{"id":"ack-label","type":"text","text":"`ack { messageId } -> delete inbox row`","x":-60,"y":-460,"width":420,"height":50,"color":"0"},
+		{"id":"client","type":"text","text":"**Client**\n(WebSocket)","x":-420,"y":-220,"width":140,"height":70},
+		{"id":"chat-server","type":"text","text":"**Chat Server**\n(single node)\n\nin-memory map:\nclientId -> WebSocket\npush newMessage to connected","x":-60,"y":-280,"width":260,"height":200,"color":"4"},
+		{"id":"database","type":"text","text":"**Database**\n(DynamoDB)","x":420,"y":-250,"width":200,"height":80,"color":"6"},
+		{"id":"s3","type":"text","text":"**S3**\n(media blobs)\n\nclient uploads direct\nvia pre-signed URL","x":420,"y":-80,"width":220,"height":160,"color":"3"},
+		{"id":"chat-table","type":"text","text":"**Chat**\n- chatId (PK)\n- name\n- metadata","x":820,"y":-400,"width":190,"height":180,"color":"6"},
+		{"id":"participant-table","type":"text","text":"**ChatParticipant**\n- chatId (PK)\n- participantId (SK)\n- GSI on participantId\n  (chats for a user)","x":1040,"y":-400,"width":230,"height":200,"color":"6"},
+		{"id":"messages-table","type":"text","text":"**Messages**\n- messageId (PK)\n- chatId\n- senderId\n- contents (text or S3 URL)\n- timestamp","x":820,"y":-100,"width":230,"height":250,"color":"6"},
+		{"id":"inbox-table","type":"text","text":"**Inbox**\n- recipientId (PK)\n- messageId (SK)\n- timestamp\n\none row per undelivered\nmessage per recipient","x":1080,"y":-100,"width":230,"height":250,"color":"6"},
+		{"id":"send-note","type":"text","text":"**Send flow (single node, durable)**\n1. lookup participants (ChatParticipant)\n2. transaction: write Messages row\n   + one Inbox row per participant\n   (DynamoDB txn cap 100 -> ~99 members)\n3. connected? push over socket now\n4. client acks -> delete Inbox row\n\nReconnect: read Inbox rows, push, ack, remove","x":280,"y":140,"width":340,"height":300,"color":"0"},
+		{"id":"naive-note","type":"text","text":"**Naive: single chat server**\nAll clients connect to one server.\nNo cross-server routing, no LB,\nno presence scaling.\nWorks, but only ~2M connections fit\nand one node is a single point of failure.\nFixed in deep dives.","x":280,"y":-560,"width":320,"height":260,"color":"0"}
+	],
+	"edges":[
+		{"id":"e-rm1-rm2","fromNode":"roadmap-1","fromSide":"right","toNode":"roadmap-2","toSide":"left"},
+		{"id":"e-rm2-rm3","fromNode":"roadmap-2","fromSide":"right","toNode":"roadmap-3","toSide":"left"},
+		{"id":"e-rm3-rm4","fromNode":"roadmap-3","fromSide":"right","toNode":"roadmap-4","toSide":"left"},
+		{"id":"e-rm4-rm5","fromNode":"roadmap-4","fromSide":"right","toNode":"roadmap-5","toSide":"left"},
+		{"id":"e-hld-rm4","fromNode":"roadmap-hld","fromSide":"bottom","toNode":"roadmap-4","toSide":"top"},
+		{"id":"e-dd-rm5","fromNode":"roadmap-dd","fromSide":"bottom","toNode":"roadmap-5","toSide":"top"},
+		{"id":"e-client-server","fromNode":"client","fromSide":"right","toNode":"chat-server","toSide":"left","label":"WebSocket"},
+		{"id":"e-server-db","fromNode":"chat-server","fromSide":"right","toNode":"database","toSide":"left"},
+		{"id":"e-server-s3","fromNode":"chat-server","fromSide":"right","toNode":"s3","toSide":"left","label":"pre-signed URL"}
+	]
+}

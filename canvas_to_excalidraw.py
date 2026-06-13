@@ -232,7 +232,15 @@ def convert(canvas_path, output_path=None):
     _used_ids = set()
 
     if output_path is None:
-        output_path = canvas_path.replace(".canvas", ".excalidraw.md")
+        base = os.path.basename(canvas_path).replace(".canvas", ".excalidraw.md")
+        parent = os.path.dirname(canvas_path)
+        # If the canvas lives in a Canvas/ folder, emit into a sibling Excalidraw/ folder.
+        if os.path.basename(parent) == "Canvas":
+            out_dir = os.path.join(os.path.dirname(parent), "Excalidraw")
+            os.makedirs(out_dir, exist_ok=True)
+            output_path = os.path.join(out_dir, base)
+        else:
+            output_path = canvas_path.replace(".canvas", ".excalidraw.md")
 
     with open(canvas_path, "r", encoding="utf-8") as f:
         canvas = json.load(f)

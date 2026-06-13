@@ -60,11 +60,14 @@ Act as a system design expert. Given a problem (e.g., "URL Shortener", "Instagra
 
 ## Step 2: Create the solution folder
 
-Create: `Problems/<Problem Name>/`
+Create the folder and its two diagram subfolders:
+- `Problems/<Problem Name>/`
+- `Problems/<Problem Name>/Canvas/` (the `.canvas` files go here)
+- `Problems/<Problem Name>/Excalidraw/` (the converter writes `.excalidraw.md` files here)
 
 ## Step 3: Write the solution file
 
-Create `<Problem Name>.md` following this structure:
+Create `Problems/<Problem Name>/<Problem Name>.md` (at the problem root, not in a subfolder) following this structure:
 
 ```
 ## Requirements
@@ -125,7 +128,9 @@ Both canvases include the full problem context on the left side, identical in bo
 
 This context is always present. The only difference between Base and Deep is the architecture diagram in the center/right.
 
-### Canvas 1: `<Problem Name> Base.canvas`
+Both canvases are saved in `Problems/<Problem Name>/Canvas/`.
+
+### Canvas 1: `Canvas/<Problem Name> Base.canvas`
 
 The **simple high-level design** that satisfies functional requirements. The "it works but doesn't scale" version.
 
@@ -146,7 +151,7 @@ The **simple high-level design** that satisfies functional requirements. The "it
 - No virtual waiting queues
 - No CDC pipelines
 
-### Canvas 2: `<Problem Name> Deep.canvas`
+### Canvas 2: `Canvas/<Problem Name> Deep.canvas`
 
 The **fully optimized design** with all deep dive additions. The senior/staff answer.
 
@@ -206,9 +211,9 @@ This acts as a before/after reference so you can see at a glance what changed fr
 
 ### Excalidraw generation
 
-After creating canvas files, generate matching `.excalidraw.md` files using the converter script:
+After creating canvas files, generate matching `.excalidraw.md` files using the converter script. It auto-detects the `Canvas/` folder and writes the output into the sibling `Excalidraw/` folder:
 
 ```bash
-python3 canvas_to_excalidraw.py "Problems/<Problem Name>/<Problem Name> Base.canvas"
-python3 canvas_to_excalidraw.py "Problems/<Problem Name>/<Problem Name> Deep.canvas"
+python3 canvas_to_excalidraw.py "Problems/<Problem Name>/Canvas/<Problem Name> Base.canvas"
+python3 canvas_to_excalidraw.py "Problems/<Problem Name>/Canvas/<Problem Name> Deep.canvas"
 ```
