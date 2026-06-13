@@ -8,15 +8,15 @@ Parse the request (the text after `/system-design`) to determine the mode. If em
 
 # Paths
 
-- **Knowledge base**: `Sources/` (source notes and transcripts)
-- **Brain file**: `_Brain.md` (in project root)
-- **Problems dir**: `Problems/`
+- **Knowledge base**: `sources/` (source notes and transcripts)
+- **Brain file**: `BRAIN.md` (in project root)
+- **Problems dir**: `problems/`
 
 ---
 
 # Mode: explain <concept>
 
-1. Read `_Brain.md`
+1. Read `BRAIN.md`
 2. Find the section(s) relevant to the concept
 3. Explain it clearly using the brain's content
 4. If the brain has enough detail, answer from it alone
@@ -27,7 +27,7 @@ Parse the request (the text after `/system-design`) to determine the mode. If em
 
 # Mode: review
 
-1. Read `_Brain.md`
+1. Read `BRAIN.md`
 2. Present a structured overview of all knowledge by category
 3. For each category, note whether it's **deep** (multiple paragraphs, examples, trade-offs) or **thin** (just definitions)
 4. Suggest 2-3 topics worth studying next, based on what's thin in the brain itself
@@ -37,10 +37,10 @@ Parse the request (the text after `/system-design`) to determine the mode. If em
 
 # Mode: update
 
-1. Read ALL `.md` files in `Sources/`
-2. Also read `.md` files in `Problems/*/` if any exist
+1. Read ALL `.md` files in `sources/`
+2. Also read `.md` files in `problems/*/` if any exist
 3. Skip `.canvas` files
-4. Regenerate `_Brain.md` from scratch by extracting and compiling all knowledge
+4. Regenerate `BRAIN.md` from scratch by extracting and compiling all knowledge
 5. Follow the existing brain structure: categories with bolded concept names and 2-5 sentence explanations
 6. Cite sources as `[[wikilinks]]` inline where a concept comes from a specific file
 7. Set `Last updated:` to today's date
@@ -56,19 +56,19 @@ Act as a system design expert. Given a problem (e.g., "URL Shortener", "Instagra
 
 ## Step 1: Read context
 
-- Read `_Brain.md` for relevant concepts and patterns
+- Read `BRAIN.md` for relevant concepts and patterns
 - If the user provides a YouTube URL or reference material, read/transcribe that first
 
 ## Step 2: Create the solution folder
 
 Create the folder and its two diagram subfolders:
-- `Problems/<Problem Name>/`
-- `Problems/<Problem Name>/Canvas/` (the `.canvas` files go here)
-- `Problems/<Problem Name>/Excalidraw/` (the converter writes `.excalidraw.md` files here)
+- `problems/<Problem Name>/`
+- `problems/<Problem Name>/Canvas/` (the `.canvas` files go here)
+- `problems/<Problem Name>/Excalidraw/` (the converter writes `.excalidraw.md` files here)
 
 ## Step 3: Write the solution file
 
-Create `Problems/<Problem Name>/<Problem Name>.md` (at the problem root, not in a subfolder) following this structure:
+Create `problems/<Problem Name>/<Problem Name>.md` (at the problem root, not in a subfolder) following this structure:
 
 ```
 ## Requirements
@@ -129,7 +129,7 @@ Both canvases include the full problem context on the left side, identical in bo
 
 This context is always present. The only difference between Base and Deep is the architecture diagram in the center/right.
 
-Both canvases are saved in `Problems/<Problem Name>/Canvas/`.
+Both canvases are saved in `problems/<Problem Name>/Canvas/`.
 
 ### Canvas 1: `Canvas/<Problem Name> Base.canvas`
 
@@ -215,6 +215,6 @@ This acts as a before/after reference so you can see at a glance what changed fr
 After creating canvas files, generate matching `.excalidraw.md` files using the converter script. It auto-detects the `Canvas/` folder and writes the output into the sibling `Excalidraw/` folder:
 
 ```bash
-python3 canvas_to_excalidraw.py "Problems/<Problem Name>/Canvas/<Problem Name> Base.canvas"
-python3 canvas_to_excalidraw.py "Problems/<Problem Name>/Canvas/<Problem Name> Deep.canvas"
+python3 canvas_to_excalidraw.py "problems/<Problem Name>/Canvas/<Problem Name> Base.canvas"
+python3 canvas_to_excalidraw.py "problems/<Problem Name>/Canvas/<Problem Name> Deep.canvas"
 ```

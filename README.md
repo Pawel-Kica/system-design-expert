@@ -8,9 +8,9 @@ You give it a system design problem. It produces a structured solution (requirem
 
 ## What's inside
 
-- **`_Brain.md`**: a self-contained knowledge base of system design concepts (CAP theorem, caching, sharding, consistent hashing, fan-out, operational transformation, rate-limiting algorithms, bloom filters, and more), compiled from the source notes.
-- **`Problems/`**: six solved problems, each with a full written solution plus Base and Deep architecture diagrams. Every problem folder splits its diagrams into `Canvas/` (Obsidian Canvas) and `Excalidraw/`.
-- **`Sources/`**: detailed breakdowns distilled from system design interview walkthroughs, the raw material the brain is compiled from.
+- **`BRAIN.md`**: a self-contained knowledge base of system design concepts (CAP theorem, caching, sharding, consistent hashing, fan-out, operational transformation, rate-limiting algorithms, bloom filters, and more), compiled from the source notes.
+- **`problems/`**: six solved problems, each with a full written solution plus Base and Deep architecture diagrams. Every problem folder splits its diagrams into `Canvas/` (Obsidian Canvas) and `Excalidraw/`.
+- **`sources/`**: detailed breakdowns distilled from system design interview walkthroughs, the raw material the brain is compiled from.
 - **`canvas_to_excalidraw.py`**: converts an Obsidian `.canvas` into an `.excalidraw.md`.
 
 ### Solved problems
@@ -67,7 +67,7 @@ Prints the knowledge base by category and flags the thin spots.
 /system-design solve URL Shortener
 ```
 
-Writes a full solution to `Problems/URL Shortener/` plus two diagrams: `Canvas/URL Shortener Base.canvas` (naive) and `Canvas/URL Shortener Deep.canvas` (scaled). Matching `.excalidraw.md` files land in `Excalidraw/`.
+Writes a full solution to `problems/URL Shortener/` plus two diagrams: `Canvas/URL Shortener Base.canvas` (naive) and `Canvas/URL Shortener Deep.canvas` (scaled). Matching `.excalidraw.md` files land in `Excalidraw/`.
 
 **4. Open the diagrams**
 
@@ -75,7 +75,7 @@ Open the repo as an Obsidian vault, then open any `.canvas` file to see the arch
 
 **5. Grow it**
 
-Drop a transcript or article into `Sources/`, then `/system-design update` to fold it into the brain. Ask it anything with `/system-design explain <concept>`.
+Drop a transcript or article into `sources/`, then `/system-design update` to fold it into the brain. Ask it anything with `/system-design explain <concept>`.
 
 For the same thing in prose, see [SETUP.md](SETUP.md).
 
@@ -87,7 +87,7 @@ For the same thing in prose, see [SETUP.md](SETUP.md).
 /system-design solve Chat System
 ```
 
-Generates a full solution (requirements, core entities, APIs, high-level design, deep dives) and two architecture canvases (Base and Deep), saved under `Problems/<Name>/`.
+Generates a full solution (requirements, core entities, APIs, high-level design, deep dives) and two architecture canvases (Base and Deep), saved under `problems/<Name>/`.
 
 ### Explain a concept
 
@@ -111,7 +111,7 @@ A structured overview of everything in the brain by category, with thin areas fl
 /system-design update
 ```
 
-Regenerates `_Brain.md` from everything in `Sources/` and `Problems/`. Run it after adding new source material.
+Regenerates `BRAIN.md` from everything in `sources/` and `problems/`. Run it after adding new source material.
 
 ## Obsidian integration
 
@@ -119,7 +119,7 @@ The `.canvas` files open natively in [Obsidian](https://obsidian.md). Open this 
 
 ## Adding your own sources
 
-Drop a note, transcript, or article into `Sources/`, then run `/system-design update` to fold it into the brain.
+Drop a note, transcript, or article into `sources/`, then run `/system-design update` to fold it into the brain.
 
 ## Credits
 

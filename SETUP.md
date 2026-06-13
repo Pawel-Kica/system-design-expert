@@ -25,7 +25,7 @@ This prints the knowledge base by category and flags thin areas. Good first look
 /system-design solve Distributed Cache
 ```
 
-You get a full written solution under `Problems/Distributed Cache/` plus two diagrams:
+You get a full written solution under `problems/Distributed Cache/` plus two diagrams:
 
 - `Canvas/<Name> Base.canvas`: the naive design.
 - `Canvas/<Name> Deep.canvas`: the scaled design, with a node summarizing what Deep adds.
@@ -39,6 +39,6 @@ Open the repo as an [Obsidian](https://obsidian.md) vault and open any `.canvas`
 ## 5. Grow it
 
 - `/system-design explain <concept>`: ask the brain anything.
-- Drop a transcript or article into `Sources/`, then `/system-design update` to fold it into the brain.
+- Drop a transcript or article into `sources/`, then `/system-design update` to fold it into the brain.
 
 That is the whole loop: solve problems, read the diagrams, feed it new sources, ask it to explain.
